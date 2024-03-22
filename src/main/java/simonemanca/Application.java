@@ -30,14 +30,14 @@ public class Application {
 
             // Se il numero di tessera esiste già, genera un nuovo numero di tessera univoco
             if (tesseraEsistente) {
-                // Genera un nuovo numero di tessera univoco (puoi implementare la tua logica qui)
+                // Genera un nuovo numero di tessera univoco
                 String nuovoNumeroTessera = generaNuovoNumeroTessera();
 
                 // Aggiorna il numero di tessera nel nuovo utente con il numero generato
                 nuovoUtente.setNumeroTessera(nuovoNumeroTessera);
             }
 
-            // Inserisci il nuovo utente nel database
+            // Inserisco il nuovo utente nel database
             utenteDao.salva(nuovoUtente);
 
             Prestito nuovoPrestito = new Prestito(nuovoUtente, LocalDate.now(), LocalDate.now().plusDays(30), null);
