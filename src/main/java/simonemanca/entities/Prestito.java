@@ -1,9 +1,8 @@
 package simonemanca.entities;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-
+import simonemanca.entities.Utente;
 @Entity
 @Table(name = "prestiti")
 public class Prestito {
@@ -81,3 +80,4 @@ public class Prestito {
         this.dataRestituzioneEffettiva = dataRestituzioneEffettiva;
     }
 }
+
