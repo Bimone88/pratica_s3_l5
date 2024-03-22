@@ -23,16 +23,25 @@ public class Utente {
     @Column(name = "numero_tessera", unique = true)
     private String numeroTessera;
 
+    @OneToOne(mappedBy = "utente", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private DettagliUtente dettagliUtente;
+
     public Utente() {
     }
 
-    public Utente(String nome, String cognome, LocalDate dataNascita, String numeroTessera) {
+    public Utente(String nome, String cognome, LocalDate dataNascita, String numeroTessera, DettagliUtente dettagliUtente) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataNascita = dataNascita;
         this.numeroTessera = numeroTessera;
+        this.dettagliUtente = dettagliUtente;
+        
+        if (dettagliUtente != null) {
+            dettagliUtente.setUtente(this);
+        }
     }
 
+    // Getter e Setter inclusi il nuovo campo dettagliUtente
     public Long getId() {
         return id;
     }
@@ -72,5 +81,17 @@ public class Utente {
     public void setNumeroTessera(String numeroTessera) {
         this.numeroTessera = numeroTessera;
     }
+
+    public DettagliUtente getDettagliUtente() {
+        return dettagliUtente;
+    }
+
+    public void setDettagliUtente(DettagliUtente dettagliUtente) {
+        this.dettagliUtente = dettagliUtente;
+        if (dettagliUtente != null) {
+            dettagliUtente.setUtente(this);
+        }
+    }
 }
+
 
