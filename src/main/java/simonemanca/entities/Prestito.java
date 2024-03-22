@@ -14,7 +14,7 @@ public class Prestito {
     @JoinColumn(name = "utente_id", nullable = false)
     private Utente utente;
 
-    // Per semplicità, questo campo è commentato. Dovrai decidere come gestire il riferimento agli elementi prestati.
+    
     // @ManyToOne
     // @JoinColumn(name = "elemento_id")
     // private CatalogoItem elementoPrestato;
@@ -80,4 +80,5 @@ public class Prestito {
         this.dataRestituzioneEffettiva = dataRestituzioneEffettiva;
     }
 }
+
 
