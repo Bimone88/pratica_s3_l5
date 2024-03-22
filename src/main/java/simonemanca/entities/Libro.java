@@ -5,9 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Table;
 
 @Entity
@@ -47,7 +44,7 @@ public class Libro {
         this.genere = genere;
     }
 
-    // Getter e Setter
+    // Getter e Setter per tutti gli attributi
     public Long getId() {
         return id;
     }
@@ -117,4 +114,5 @@ public class Libro {
                 '}';
     }
 }
+
 

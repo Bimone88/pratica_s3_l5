@@ -11,22 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "riviste")
-public class Rivista {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "isbn")
-    private String isbn;
-
-    @Column(name = "titolo")
-    private String titolo;
-
-    @Column(name = "anno_pubblicazione")
-    private int annoPubblicazione;
-
-    @Column(name = "numero_pagine")
-    private int numeroPagine;
+public class Rivista extends ElementoCatalogo {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "periodicita")
@@ -36,54 +21,11 @@ public class Rivista {
     }
 
     public Rivista(String isbn, String titolo, int annoPubblicazione, int numeroPagine, Periodicita periodicita) {
-        this.isbn = isbn;
-        this.titolo = titolo;
-        this.annoPubblicazione = annoPubblicazione;
-        this.numeroPagine = numeroPagine;
+        super(isbn, titolo, annoPubblicazione, numeroPagine);
         this.periodicita = periodicita;
     }
 
-    // Getter e Setter
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getTitolo() {
-        return titolo;
-    }
-
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
-    }
-
-    public int getAnnoPubblicazione() {
-        return annoPubblicazione;
-    }
-
-    public void setAnnoPubblicazione(int annoPubblicazione) {
-        this.annoPubblicazione = annoPubblicazione;
-    }
-
-    public int getNumeroPagine() {
-        return numeroPagine;
-    }
-
-    public void setNumeroPagine(int numeroPagine) {
-        this.numeroPagine = numeroPagine;
-    }
-
+    // Getter e Setter per la periodicità
     public Periodicita getPeriodicita() {
         return periodicita;
     }
@@ -95,11 +37,11 @@ public class Rivista {
     @Override
     public String toString() {
         return "Rivista{" +
-                "id=" + id +
-                ", isbn='" + isbn + '\'' +
-                ", titolo='" + titolo + '\'' +
-                ", annoPubblicazione=" + annoPubblicazione +
-                ", numeroPagine=" + numeroPagine +
+                "id=" + getId() +
+                ", isbn='" + getIsbn() + '\'' +
+                ", titolo='" + getTitolo() + '\'' +
+                ", annoPubblicazione=" + getAnnoPubblicazione() +
+                ", numeroPagine=" + getNumeroPagine() +
                 ", periodicita=" + periodicita +
                 '}';
     }
