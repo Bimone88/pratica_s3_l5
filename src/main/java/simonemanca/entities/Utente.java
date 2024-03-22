@@ -35,7 +35,7 @@ public class Utente {
         this.dataNascita = dataNascita;
         this.numeroTessera = numeroTessera;
         this.dettagliUtente = dettagliUtente;
-        
+
         if (dettagliUtente != null) {
             dettagliUtente.setUtente(this);
         }

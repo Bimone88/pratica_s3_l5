@@ -2,6 +2,7 @@ package simonemanca;
 
 import simonemanca.dao.PrestitoDAOImpl;
 import simonemanca.dao.UtenteDAOImpl;
+import simonemanca.entities.DettagliUtente;
 import simonemanca.entities.Prestito;
 import simonemanca.entities.Utente;
 import jakarta.persistence.EntityManager;
@@ -22,23 +23,25 @@ public class Application {
         em.getTransaction().begin();
 
         try {
-            // Crea e salva un nuovo Utente
-            Utente nuovoUtente = new Utente("Mario", "Rossi", LocalDate.of(1985, 5, 23), "000123");
+            // Crea dettagli utente
+            DettagliUtente dettagliUtente = new DettagliUtente("Indirizzo esempio", "email@example.com", null); // il terzo parametro è null perché verrà impostato dal costruttore di Utente
+
+            // Crea e salva un nuovo Utente con dettagli utente
+            Utente nuovoUtente = new Utente("Mario", "Rossi", LocalDate.of(1985, 5, 23), "000123", dettagliUtente);
             utenteDao.salva(nuovoUtente);
 
             // Crea e salva un nuovo Prestito
-            // entità CatalogoItem (Libro o Rivista) salvata nel database da dove prendo l'ID
-            Prestito nuovoPrestito = new Prestito(nuovoUtente, LocalDate.now(), LocalDate.now().plusDays(30), null);
+            // La logica per collegare un CatalogoItem specifico (Libro o Rivista) andrà implementata qui.
+            Prestito nuovoPrestito = new Prestito(nuovoUtente, LocalDate.now(), LocalDate.now().plusDays(30), null); // L'elemento prestato andrà specificato qui.
             prestitoDao.salva(nuovoPrestito);
 
             // Conferma le operazioni
             em.getTransaction().commit();
 
-            // Visualizza informazioni degli Utenti
+            // Visualizza informazioni degli Utenti e dei Prestiti
             System.out.println("Utenti registrati:");
             utenteDao.trovaTutti().forEach(utente -> System.out.println(utente.getNome() + " " + utente.getCognome()));
 
-            // Visualizza informazioni dei Prestiti
             System.out.println("Prestiti registrati:");
             prestitoDao.trovaTutti().forEach(prestito -> System.out.println("Prestito a " + prestito.getUtente().getNome() + " fino al " + prestito.getDataRestituzionePrevista()));
 
@@ -52,3 +55,4 @@ public class Application {
         }
     }
 }
+
