@@ -2,7 +2,6 @@ package simonemanca.dao;
 
 import simonemanca.entities.Prestito;
 import jakarta.persistence.EntityManager;
-
 import java.util.List;
 
 public class PrestitoDAOImpl implements PrestitoDAO {
@@ -24,20 +23,16 @@ public class PrestitoDAOImpl implements PrestitoDAO {
 
     @Override
     public Prestito salva(Prestito prestito) {
-        em.getTransaction().begin();
         if (prestito.getId() == null) {
             em.persist(prestito);
         } else {
             prestito = em.merge(prestito);
         }
-        em.getTransaction().commit();
         return prestito;
     }
 
     @Override
     public void elimina(Prestito prestito) {
-        em.getTransaction().begin();
         em.remove(prestito);
-        em.getTransaction().commit();
     }
 }

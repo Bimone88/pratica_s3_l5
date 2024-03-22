@@ -15,40 +15,32 @@ public class Application {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("pratica_s3_l5");
         EntityManager em = emf.createEntityManager();
 
-        // Istanzia i DAO
-        UtenteDAOImpl utenteDao = new UtenteDAOImpl(em);
-        PrestitoDAOImpl prestitoDao = new PrestitoDAOImpl(em);
-
-        // Avvia una transazione per eseguire operazioni sul database
-        em.getTransaction().begin();
-
         try {
-            // Crea dettagli utente
-            DettagliUtente dettagliUtente = new DettagliUtente("Indirizzo esempio", "email@example.com", null); // il terzo parametro è null perché verrà impostato dal costruttore di Utente
+            UtenteDAOImpl utenteDao = new UtenteDAOImpl(em);
+            PrestitoDAOImpl prestitoDao = new PrestitoDAOImpl(em);
 
-            // Crea e salva un nuovo Utente con dettagli utente
+            // Gestisce la transazione all'inizio e alla fine
+            em.getTransaction().begin();
+
+            DettagliUtente dettagliUtente = new DettagliUtente("Indirizzo esempio", "email@example.com", null);
             Utente nuovoUtente = new Utente("Mario", "Rossi", LocalDate.of(1985, 5, 23), "000123", dettagliUtente);
+            // Imposto l'associazione bidirezionale
+            dettagliUtente.setUtente(nuovoUtente);
+
+            // Salvo utente e dettagli utente
             utenteDao.salva(nuovoUtente);
 
-            // Crea e salva un nuovo Prestito
-            // La logica per collegare un CatalogoItem specifico (Libro o Rivista) andrà implementata qui.
-            Prestito nuovoPrestito = new Prestito(nuovoUtente, LocalDate.now(), LocalDate.now().plusDays(30), null); // L'elemento prestato andrà specificato qui.
+            Prestito nuovoPrestito = new Prestito(nuovoUtente, LocalDate.now(), LocalDate.now().plusDays(30), null);
             prestitoDao.salva(nuovoPrestito);
 
-            // Conferma le operazioni
             em.getTransaction().commit();
 
-            // Visualizza informazioni degli Utenti e dei Prestiti
-            System.out.println("Utenti registrati:");
-            utenteDao.trovaTutti().forEach(utente -> System.out.println(utente.getNome() + " " + utente.getCognome()));
-
-            System.out.println("Prestiti registrati:");
-            prestitoDao.trovaTutti().forEach(prestito -> System.out.println("Prestito a " + prestito.getUtente().getNome() + " fino al " + prestito.getDataRestituzionePrevista()));
-
+            System.out.println("Operazioni completate con successo.");
         } catch (Exception e) {
-            // In caso di errore, annulla le modifiche
-            em.getTransaction().rollback();
             e.printStackTrace();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         } finally {
             em.close();
             emf.close();
